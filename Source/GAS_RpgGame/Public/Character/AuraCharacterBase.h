@@ -14,7 +14,6 @@ class GAS_RPGGAME_API AAuraCharacterBase : public ACharacter
 public:
 	
 	AAuraCharacterBase();
-
 protected:
 
 	virtual void BeginPlay() override;
