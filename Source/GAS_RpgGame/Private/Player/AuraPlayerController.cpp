@@ -8,8 +8,11 @@
 
 AAuraPlayerController::AAuraPlayerController() {
 	bReplicates = true;//开启网络复制
+}
 
-	
+void AAuraPlayerController::Tick(float DeltaSeconds) {
+	Super::Tick(DeltaSeconds);
+	CursorTrace();//鼠标检测
 }
 
 void AAuraPlayerController::SetupInputComponent() {
@@ -51,4 +54,29 @@ void AAuraPlayerController::Move(const  FInputActionValue& InputActionValue)  {
 		controllerPawn->AddMovementInput(ForwardDirection,InputAxisVector.Y);//获取pawn调用AddMovementInput,,根据输入InputAxisVector.Y 正负 实现向前前后
 		controllerPawn->AddMovementInput(RightDirection,InputAxisVector.X);//获取pawn调用AddMovementInput,,根据输入InputAxisVector.x 正负 实现向右前左
 	}
+}
+//鼠标追踪
+void AAuraPlayerController::CursorTrace() {
+     FHitResult CursorHit;//检测结果
+	GetHitResultUnderCursor(ECC_Visibility,true,CursorHit);	//鼠标碰撞检测
+	if (!CursorHit.bBlockingHit) return;
+	LastActor=ThisActor;
+	ThisActor=Cast<IEnemyInterface>(CursorHit.GetActor());//将击中的敌人类转换成接口对象
+
+     if (LastActor==nullptr) {
+	     if (ThisActor!=nullptr) {
+	     	ThisActor->HighlightActor();
+	     }
+     }
+     else {
+	     if (ThisActor==nullptr) {
+	     	LastActor->UnlightActor();
+	     }
+	     else {
+		     if (LastActor!=ThisActor) {
+			     LastActor->UnlightActor();
+		     	ThisActor->HighlightActor();
+		     }
+	     }
+     }
 }

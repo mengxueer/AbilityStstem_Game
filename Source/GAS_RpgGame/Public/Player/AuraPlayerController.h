@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "InputAction.h"
 #include "GameFramework/PlayerController.h"
+#include "interaction/EnemyInterface.h"
 #include "AuraPlayerController.generated.h"
 
 
@@ -20,6 +21,7 @@ class GAS_RPGGAME_API AAuraPlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	AAuraPlayerController();
+	virtual void Tick(float DeltaSeconds) override;
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -31,4 +33,9 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const struct  FInputActionValue& InputActionValue) ;
+	
+	void CursorTrace();
+
+	IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;
 };
