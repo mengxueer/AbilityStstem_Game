@@ -3,6 +3,8 @@
 
 #include "Character/AuraCharacter.h"
 
+#include <string>
+
 #include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerState.h"
@@ -34,7 +36,10 @@ void AAuraCharacter::OnRep_PlayerState() {
 
 void AAuraCharacter::InitAbilityActorInfo() {
 	AAuraPlayerState* AuraPlayerState=GetPlayerState<AAuraPlayerState>();//得到玩家状态句柄
-	check(AuraPlayerState);
+	//check(AuraPlayerState);
+	if (AuraPlayerState==nullptr) {
+		return;
+	}
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);//在服务器上设置AbilitySystemComponent 的拥有者和化身
 	AbilitySystemComponent=AuraPlayerState->GetAbilitySystemComponent();//AbilitySystemComponent赋值
 	AttributeSet=AuraPlayerState->GetAttributeSet();//AttributeSet赋值
