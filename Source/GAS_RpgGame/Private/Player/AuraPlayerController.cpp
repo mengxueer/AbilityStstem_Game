@@ -27,10 +27,10 @@ void AAuraPlayerController::BeginPlay() {
 	check(AuraContext);//检查是否是空指针
 	
 	UEnhancedInputLocalPlayerSubsystem* Subsystem= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());//获取增强输入系统
-	check(Subsystem);//检查是否空指针
-
-	Subsystem->AddMappingContext(AuraContext,0);//添加按键映射
-	
+	if (Subsystem)		//检查是否空指针
+	{
+		Subsystem->AddMappingContext(AuraContext,0);//添加按键映射
+	}
 	bShowMouseCursor=true;//设置显示鼠标
 	DefaultMouseCursor=EMouseCursor::Default;//设置默认光标
 	

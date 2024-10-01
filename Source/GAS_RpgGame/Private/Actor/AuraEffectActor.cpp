@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "Components/SphereComponent.h"
 
 
@@ -21,7 +22,11 @@ AAuraEffectActor::AAuraEffectActor()
 void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (IAbilitySystemInterface* AscInterface=Cast<IAbilitySystemInterface>(OtherActor)) {
-		AscInterface->GetAbilitySystemComponent()->GetAttributeSet(UAttributeSet::StaticClass());
+	const UAuraAttributeSet* AuraAttributes=//获取属性设置
+		Cast<UAuraAttributeSet>(AscInterface->GetAbilitySystemComponent()->GetAttributeSet(UAttributeSet::StaticClass()));
+		UAuraAttributeSet* MutableAuraAttributes=const_cast<UAuraAttributeSet*>(AuraAttributes);//从const 类型转换为为普通类型
+		MutableAuraAttributes->SetHealth(AuraAttributes->GetHealth()+25.f);//血量+25.f
+		Destroy();//销毁自身
 	}
 }
 
@@ -33,8 +38,8 @@ void AAuraEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
-	Sphere->OnComponentBeginOverlap.AddDynamic(this,AAuraEffectActor::OnOverlap);//添加开始碰撞事件
-	Sphere->OnComponentEndOverlap.AddDynamic(this,AAuraEffectActor::EndOverlap);//添加结束碰撞事件
+	Sphere->OnComponentBeginOverlap.AddDynamic(this,&AAuraEffectActor::OnOverlap);//添加开始碰撞事件
+	Sphere->OnComponentEndOverlap.AddDynamic(this,&AAuraEffectActor::EndOverlap);//添加结束碰撞事件
 }
 
 

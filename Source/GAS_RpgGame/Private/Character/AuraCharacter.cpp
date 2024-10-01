@@ -7,7 +7,9 @@
 
 #include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
+#include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter() {
 	
@@ -43,4 +45,14 @@ void AAuraCharacter::InitAbilityActorInfo() {
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);//在服务器上设置AbilitySystemComponent 的拥有者和化身
 	AbilitySystemComponent=AuraPlayerState->GetAbilitySystemComponent();//AbilitySystemComponent赋值
 	AttributeSet=AuraPlayerState->GetAttributeSet();//AttributeSet赋值
+
+	if (AAuraPlayerController* AuraPlayerController=Cast<AAuraPlayerController>(GetController()))
+	{
+		if (AAuraHUD* AuraHUD=Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+		{
+			AuraHUD->InitOverlay(AuraPlayerController,AuraPlayerState,
+				AbilitySystemComponent,AttributeSet);
+		}
+		
+	}
 }
