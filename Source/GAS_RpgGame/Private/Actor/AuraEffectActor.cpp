@@ -26,7 +26,10 @@ void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		Cast<UAuraAttributeSet>(AscInterface->GetAbilitySystemComponent()->GetAttributeSet(UAttributeSet::StaticClass()));
 		UAuraAttributeSet* MutableAuraAttributes=const_cast<UAuraAttributeSet*>(AuraAttributes);//从const 类型转换为为普通类型
 		MutableAuraAttributes->SetHealth(AuraAttributes->GetHealth()+25.f);//血量+25.f
+<<<<<<< HEAD
 		MutableAuraAttributes->SetMana(AuraAttributes->GetMana()+10.f);
+=======
+>>>>>>> e21d9ee0d1114ffa03abd27d9a5d57708e109715
 		Destroy();//销毁自身
 	}
 }

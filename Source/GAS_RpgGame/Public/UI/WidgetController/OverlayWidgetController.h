@@ -6,6 +6,7 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
+<<<<<<< HEAD
 
 struct FOnAttributeChangeData;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
@@ -38,5 +39,14 @@ protected:
      //法力值
 	void ManaChanged(const FOnAttributeChangeData& Data)const;
 	void MaxManaChanged(const FOnAttributeChangeData& Data)const;
+=======
+/**
+ * 
+ */
+UCLASS()
+class GAS_RPGGAME_API UOverlayWidgetController : public UAuraWidgetController
+{
+	GENERATED_BODY()
+>>>>>>> e21d9ee0d1114ffa03abd27d9a5d57708e109715
 	
 };

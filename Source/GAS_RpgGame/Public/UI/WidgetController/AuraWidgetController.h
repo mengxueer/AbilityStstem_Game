@@ -42,10 +42,13 @@ class GAS_RPGGAME_API UAuraWidgetController : public UObject
 public:
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams &WCParams);
+<<<<<<< HEAD
 
 	virtual void BrodcastInitValues();
 
 	virtual void BindCallbacksToDependencies();
+=======
+>>>>>>> e21d9ee0d1114ffa03abd27d9a5d57708e109715
 protected:
 	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
 	TObjectPtr<APlayerController> PlayController;
