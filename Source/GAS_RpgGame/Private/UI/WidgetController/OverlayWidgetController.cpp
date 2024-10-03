@@ -2,8 +2,6 @@
 
 
 #include "UI/WidgetController/OverlayWidgetController.h"
-
-<<<<<<< HEAD
 #include "AbilitySystem/AuraAttributeSet.h"
 
 void UOverlayWidgetController::BrodcastInitValues()
@@ -53,5 +51,4 @@ void UOverlayWidgetController::MaxManaChanged(const FOnAttributeChangeData& Data
 {
 	OnManaChanged.Broadcast(Data.NewValue);
 }
-=======
->>>>>>> e21d9ee0d1114ffa03abd27d9a5d57708e109715
+
