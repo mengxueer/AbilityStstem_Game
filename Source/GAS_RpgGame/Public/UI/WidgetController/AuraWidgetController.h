@@ -44,7 +44,7 @@ public:
 	void SetWidgetControllerParams(const FWidgetControllerParams &WCParams);
 
 
-	virtual void BrodcastInitValues();
+	virtual void BroadcastInitValues();
 
 	virtual void BindCallbacksToDependencies();
 

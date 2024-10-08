@@ -21,7 +21,7 @@ class GAS_RPGGAME_API UOverlayWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 public:
-	virtual void BrodcastInitValues() override;
+	virtual void BroadcastInitValues() override;
 	virtual void BindCallbacksToDependencies() override;
 	UPROPERTY(BlueprintAssignable,Category="GAS|Attributes")
 	FOnHealthChangedSignature OnHealthChanged;
