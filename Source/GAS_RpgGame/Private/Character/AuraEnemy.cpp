@@ -35,6 +35,11 @@ void AAuraEnemy::UnlightActor() {
 
 void AAuraEnemy::BeginPlay() {
 	Super::BeginPlay();
+	InitAbilityActorInfo();
+}
+
+void AAuraEnemy::InitAbilityActorInfo() {
 	check(AbilitySystemComponent);
 	AbilitySystemComponent->InitAbilityActorInfo(this,this);//设置abilitySystem 的拥有者和化身
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();//通知初始化成功
 }

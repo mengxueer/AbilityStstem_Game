@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class GAS_RPGGAME_API AAuraEnemy : public AAuraCharacter,public IEnemyInterface
+class GAS_RPGGAME_API AAuraEnemy : public AAuraCharacterBase,public IEnemyInterface
 {
 	GENERATED_BODY()
 public:
@@ -21,5 +21,5 @@ public:
 	virtual void UnlightActor() override;
 protected:
 	virtual void BeginPlay() override;
-	
+	virtual void InitAbilityActorInfo() override;
 };
