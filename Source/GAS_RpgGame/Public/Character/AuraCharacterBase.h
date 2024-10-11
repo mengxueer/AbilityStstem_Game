@@ -3,14 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
+#include "interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UGameplayEffect;
 class UAttributeSet;
 class UAbilitySystemComponent;
 UCLASS(Abstract)//抽象类
-class GAS_RPGGAME_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface
+class GAS_RPGGAME_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface,public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -31,7 +34,19 @@ protected:
 	
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-
 	virtual  void InitAbilityActorInfo() ;
+
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultSeconderAttributes;
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+	
+	void AppleEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass,float Level)const;
+	void InitializeDefaultAttributes()const;
+	
 	
 };
+
+

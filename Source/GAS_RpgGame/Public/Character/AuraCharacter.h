@@ -15,9 +15,10 @@ class GAS_RPGGAME_API AAuraCharacter : public AAuraCharacterBase
 	GENERATED_BODY()
 public:
 	AAuraCharacter();
-protected:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+	//互动接口
+	virtual int32 GetPlayerLevel() override;
 private:
 	virtual  void InitAbilityActorInfo() override;
 };

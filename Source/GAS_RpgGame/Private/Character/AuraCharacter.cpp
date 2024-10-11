@@ -37,12 +37,17 @@ void AAuraCharacter::OnRep_PlayerState() {
 	InitAbilityActorInfo();
 }
 
+int32 AAuraCharacter::GetPlayerLevel() {
+	return GetPlayerState<AAuraPlayerState>()->GetPlayerLevel();
+}
+
 void AAuraCharacter::InitAbilityActorInfo() {
 	AAuraPlayerState* AuraPlayerState=GetPlayerState<AAuraPlayerState>();//得到玩家状态句柄
 	//check(AuraPlayerState);
 	if (AuraPlayerState==nullptr) {
 		return;
 	}
+	
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);//在服务器上设置AbilitySystemComponent 的拥有者和化身
      Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();//通知初始化成功
 	
@@ -59,4 +64,5 @@ void AAuraCharacter::InitAbilityActorInfo() {
 		}
 		
 	}
+	InitializeDefaultAttributes();
 }
