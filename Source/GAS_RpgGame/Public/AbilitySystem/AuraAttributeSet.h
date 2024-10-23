@@ -13,6 +13,7 @@
  	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
  	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+
 USTRUCT()
 struct FEffectProperties{
 	GENERATED_BODY()
@@ -39,16 +40,23 @@ struct FEffectProperties{
 /**
  * 
  */
+//typedef TBaseStaticDelegateInstance<float(int32),FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFunPtr;
+template<class  T>
+using TStaticFunPtr= typename TBaseStaticDelegateInstance<T,FDefaultDelegateUserPolicy>::FFuncPtr;
 UCLASS()
 class GAS_RPGGAME_API UAuraAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 public:
 	UAuraAttributeSet();
-    virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual  void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual  void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
-
+	
+	
+    
+	TMap<FGameplayTag,TStaticFunPtr<FGameplayAttribute()>> TagToAttributes;
+	
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Strength,Category="Primary Attributes",meta=(tooltip="主要属性"))
 	FGameplayAttributeData Strength;//体力
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet,Strength);
