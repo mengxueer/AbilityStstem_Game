@@ -29,6 +29,7 @@ void AAuraCharacter::PossessedBy(AController* NewController) {//给予控制器�
 	Super::PossessedBy(NewController);
 	//在服务器上初始化
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
 void AAuraCharacter::OnRep_PlayerState() {

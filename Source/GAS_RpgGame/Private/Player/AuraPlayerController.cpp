@@ -3,11 +3,18 @@
 
 #include "Player/AuraPlayerController.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGamePlayTags.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/SplineComponent.h"
+#include "Input/AuraInputComponent.h"
 
 AAuraPlayerController::AAuraPlayerController() {
 	bReplicates = true;//开启网络复制
+
+	Spline=CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
 void AAuraPlayerController::Tick(float DeltaSeconds) {
@@ -18,16 +25,18 @@ void AAuraPlayerController::Tick(float DeltaSeconds) {
 void AAuraPlayerController::SetupInputComponent() {
 	Super::SetupInputComponent();
 	
-	UEnhancedInputComponent* EnhancedInputComponent=CastChecked<UEnhancedInputComponent>(InputComponent);//获取输入组件并转换成增强输入组件
+	UAuraInputComponent* EnhancedInputComponent=CastChecked<UAuraInputComponent>(InputComponent);//获取输入组件并转换成增强输入组件
 	EnhancedInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this,&AAuraPlayerController::Move);//bind移动事件
+	EnhancedInputComponent->BindAbilityActions(InputConfig,this,
+		&AAuraPlayerController::AbilityInputTagPressed,&AAuraPlayerController::AbilityInputTagReleased,&AAuraPlayerController::AbilityInputTagHeld);
+	
 }
 
 void AAuraPlayerController::BeginPlay() {
 	Super::BeginPlay();
 	check(AuraContext);//检查是否是空指针
-	
-	UEnhancedInputLocalPlayerSubsystem* Subsystem= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());//获取增强输入系统
-	if (Subsystem)		//检查是否空指针
+
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))		//检查是否空指针
 	{
 		Subsystem->AddMappingContext(AuraContext,0);//添加按键映射
 	}
@@ -79,4 +88,30 @@ void AAuraPlayerController::CursorTrace() {
 		     }
 	     }
      }
+}
+
+void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag) {
+	if (InputTag.MatchesTagExact(FAuraGamePlayTags::Get().InputTag_LMB)) {
+		bTargeting=ThisActor?true:false;
+		bAutoRunning=false;
+	}
+	
+}
+
+void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag) {
+	if (GetAsc()==nullptr)return;
+	
+	GetAsc()->AbilityInputTagReleased(InputTag);
+}
+
+void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag) {
+	if (GetAsc()==nullptr)return;
+	GetAsc()->AbilityInputTagHeld(InputTag);
+}
+UAuraAbilitySystemComponent* AAuraPlayerController::GetAsc() {
+	if (AuraAbilitySystemComponent==nullptr) {
+		AuraAbilitySystemComponent=Cast<UAuraAbilitySystemComponent>(
+			UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+	return AuraAbilitySystemComponent;
 }

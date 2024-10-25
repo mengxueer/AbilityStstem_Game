@@ -17,6 +17,11 @@ class GAS_RPGGAME_API UAuraAbilitySystemComponent : public UAbilitySystemCompone
 public:
 	void AbilityActorInfoSet();
 	FEffectAssetTags EffectAssetTags;
+
+	void AddCharactAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartUpAbilities);
+
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 protected:
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle) const;
 };

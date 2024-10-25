@@ -5,6 +5,7 @@
 #include "Character/AuraCharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 
 
 AAuraCharacterBase::AAuraCharacterBase() {
@@ -44,6 +45,12 @@ void AAuraCharacterBase::InitializeDefaultAttributes() const {
 	AppleEffectToSelf(DefaultPrimaryAttributes,1.0f);
 	AppleEffectToSelf(DefaultSeconderAttributes,1.0f);
 	AppleEffectToSelf(DefaultVitalAttributes,1.0f);
+}
+
+void AAuraCharacterBase::AddCharacterAbilities() const {
+	UAuraAbilitySystemComponent * AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	if(!HasAuthority())return;
+	AuraASC->AddCharactAbilities(StartUpAbilities);
 }
 
 
